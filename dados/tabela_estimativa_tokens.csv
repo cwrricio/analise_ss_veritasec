@@ -1,0 +1,4 @@
+cenario,contexto,achados,gemini_sucesso,fallback_controlado,prompt_chars_estimado,prompt_tokens_estimado,output_chars_estimado,output_tokens_estimado,total_tokens_estimado,prompt_tokens_por_achado_estimado
+Codefolio,reduzido,3,1,2,60152,15038,5525,1382,16420,5012.666666666667
+Juice Shop,5 linhas,36,33,3,545325,136332,186492,46623,182955,3787.0
+Juice Shop,15 linhas,36,12,24,572500,143125,62628,15657,158782,3975.6944444444443

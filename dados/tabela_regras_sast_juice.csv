@@ -1,0 +1,12 @@
+regra,quantidade
+express-sequelize-injection,6
+run-shell-injection,5
+express-res-sendfile,4
+express-check-directory-listing,4
+detected-jwt-token,3
+unknown-value-with-script-tag,2
+hardcoded-hmac-key,2
+detect-non-literal-regexp,2
+eval-detected,2
+detect-replaceall-sanitization,2
+outras regras,11
