@@ -1,0 +1,10 @@
+provedor,modelo,modo,input_usd_1m,output_usd_1m,codefolio_usd,juice_5_linhas_usd,juice_15_linhas_usd,total_estimado_usd,custo_por_achado_usd,observacao,relacao_vs_gemini_2_5_flash
+Google,Gemini 2.5 Flash-Lite,Standard,0.1,0.4,0.0020566,0.0322824,0.0205753,0.0549143,0.0007321906666666666,Texto/imagem/vídeo; saída inclui thinking tokens.,0.22187282200049696
+Google,Gemini 3.1 Flash-Lite Preview,Standard,0.25,1.5,0.0058325,0.1040175,0.05926675,0.16911674999999998,0.00225489,Preview; texto/imagem/vídeo; saída inclui thinking tokens.,0.6832903373083613
+Google,Gemini 2.5 Flash,Standard,0.3,2.5,0.007966399999999998,0.1574571,0.08208,0.2475035,0.0033000466666666664,Base usada na análise; texto/imagem/vídeo; saída inclui thinking tokens.,1.0
+Google,Gemini 3 Flash Preview,Standard,0.5,3.0,0.011665,0.208035,0.1185335,0.33823349999999996,0.00450978,Preview; texto/imagem/vídeo; saída inclui thinking tokens.,1.3665806746167226
+Google,Gemini 2.5 Pro,Standard <=200k,1.25,10.0,0.032617499999999994,0.636645,0.33547625000000003,1.00473875,0.013396516666666667,Faixa para prompts até 200k tokens; saída inclui thinking tokens.,4.059493098077401
+OpenAI,gpt-5.4-nano,Standard short context,0.2,1.25,0.0047351,0.08554515,0.04819625,0.1384765,0.0018463533333333334,"Preço por 1M tokens, sem cache.",0.559493098077401
+OpenAI,gpt-5.4-mini,Standard short context,0.75,4.5,0.0174975,0.31205249999999995,0.17780025,0.50735025,0.00676467,"Preço por 1M tokens, sem cache.",2.049871011925084
+OpenAI,gpt-5.4,Standard short context,2.5,15.0,0.058324999999999995,1.040175,0.5926675,1.6911675,0.0225489,"Preço por 1M tokens, sem cache.",6.832903373083613
+OpenAI,gpt-5.5,Standard short context,5.0,30.0,0.11664999999999999,2.08035,1.185335,3.382335,0.0450978,"Preço por 1M tokens, sem cache.",13.665806746167226

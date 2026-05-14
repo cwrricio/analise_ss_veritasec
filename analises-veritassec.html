@@ -1,0 +1,1168 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>VeritasSec</title>
+  <style>
+    :root {
+      --bg: #f6f7f2;
+      --surface: #fffefa;
+      --surface-2: #eef3ee;
+      --ink: #151b19;
+      --muted: #5d6964;
+      --line: #d7ddd6;
+      --teal: #0f6b5f;
+      --teal-2: #d8eee8;
+      --red: #9f1d1d;
+      --red-2: #f8dfdc;
+      --amber: #a15c07;
+      --amber-2: #faead4;
+      --gray: #68736f;
+      --gray-2: #e5e8e4;
+      --shadow: 0 14px 36px rgba(20, 27, 25, .08);
+    }
+    * { box-sizing: border-box; }
+    html { background: var(--bg); scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      min-width: 320px;
+      color: var(--ink);
+      background: var(--bg);
+      font-family: Inter, "Segoe UI", Roboto, Arial, sans-serif;
+      line-height: 1.5;
+    }
+    a { color: inherit; }
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 12px max(18px, calc((100vw - 1240px) / 2));
+      background: #15211e;
+      color: #f8faf8;
+      border-bottom: 4px solid var(--amber);
+    }
+    .topbar strong { font-size: .95rem; }
+    .topbar a {
+      color: #d8eee8;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: .9rem;
+    }
+    main {
+      width: min(100% - 28px, 1240px);
+      margin: 0 auto;
+      padding: 28px 0 70px;
+    }
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.15fr) minmax(300px, .85fr);
+      gap: 22px;
+      align-items: stretch;
+      padding-bottom: 24px;
+      border-bottom: 1px solid var(--line);
+    }
+    .hero-card,
+    .hero-aside {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+    }
+    .hero-card {
+      padding: clamp(20px, 4vw, 32px);
+      background:
+        linear-gradient(140deg, rgba(15,107,95,.08), rgba(21,33,30,.02)),
+        var(--surface);
+    }
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 14px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: var(--teal-2);
+      color: #063f38;
+      font-size: .78rem;
+      font-weight: 800;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+    }
+    .hero-card p {
+      max-width: 760px;
+      margin: 0;
+      color: var(--muted);
+      font-size: clamp(1rem, 2vw, 1.08rem);
+    }
+    .hero-aside {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      padding: 14px;
+    }
+    .metric {
+      min-height: 92px;
+      padding: 14px;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+    }
+    .metric strong {
+      display: block;
+      font-size: clamp(1.45rem, 3vw, 2.25rem);
+      line-height: 1;
+      letter-spacing: 0;
+    }
+    .metric span {
+      display: block;
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: .88rem;
+      font-weight: 700;
+    }
+    .metric small {
+      display: block;
+      margin-top: 2px;
+      color: var(--gray);
+      font-size: .78rem;
+    }
+    .section-title {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 18px;
+      margin: 40px 0 14px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--line);
+    }
+    .section-title h2 {
+      margin: 0;
+      font-size: clamp(1.45rem, 3vw, 2.1rem);
+      line-height: 1.1;
+    }
+    .section-title p {
+      margin: 0;
+      max-width: 620px;
+      color: var(--muted);
+      text-align: right;
+    }
+    .mode-grid, .run-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+    .mode-panel, .run-card {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+    }
+    .mode-panel {
+      padding: 18px;
+    }
+    .mode-panel h2 {
+      margin: 0 0 8px;
+      font-size: 1.25rem;
+    }
+    .mode-panel p {
+      min-height: 72px;
+      margin: 0 0 16px;
+      color: var(--muted);
+    }
+    .metrics {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+    .metrics.compact {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      padding: 0 16px;
+    }
+    .metrics.compact .metric {
+      min-height: 78px;
+      padding: 11px;
+      box-shadow: none;
+      background: var(--surface-2);
+    }
+    .metrics.compact .metric strong {
+      font-size: 1.35rem;
+    }
+    .run-heading {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 14px;
+      padding: 16px;
+      border-bottom: 1px solid var(--line);
+    }
+    .run-heading p {
+      margin: 0 0 4px;
+      color: var(--muted);
+      font-size: .88rem;
+      font-weight: 700;
+    }
+    .run-heading h3 {
+      margin: 0;
+      font-size: 1.05rem;
+      line-height: 1.3;
+      overflow-wrap: anywhere;
+    }
+    .tag {
+      display: inline-block;
+      padding: 4px 7px;
+      border-radius: 6px;
+      border: 1px solid var(--line);
+      font-size: .76rem;
+      font-weight: 800;
+      white-space: nowrap;
+      color: var(--ink);
+      background: var(--gray-2);
+    }
+    .tag-verdadeiro-positivo, .class-verdadeiro_positivo { background: var(--teal-2); border-color: #afd6cd; color: #063f38; }
+    .tag-falso-positivo, .class-falso_positivo { background: var(--amber-2); border-color: #e8bf83; color: #633602; }
+    .tag-inconclusivo, .class-inconclusivo { background: var(--gray-2); border-color: #c7cec9; color: #39413d; }
+    .tag-critica, .severity-critica { background: var(--red); border-color: var(--red); color: white; }
+    .tag-alta, .severity-alta { background: var(--red-2); border-color: #e7aaa4; color: #761414; }
+    .tag-media, .severity-media { background: var(--amber-2); border-color: #e8bf83; color: #633602; }
+    .tag-baixa, .severity-baixa { background: var(--gray-2); border-color: #c7cec9; color: #39413d; }
+    .tag-contextual { background: var(--teal); border-color: var(--teal); color: white; }
+    .tag-analitico { background: #2d2a24; border-color: #2d2a24; color: white; }
+    .mode-panel .metric, .run-card .metric, .complementary .metric, .hero-aside .metric {
+      min-height: 70px;
+      padding: 8px 10px;
+      border: 0;
+      border-left: 3px solid var(--teal);
+      border-radius: 0;
+      background: transparent;
+      box-shadow: none;
+    }
+    .stacked-bar {
+      display: flex;
+      width: 100%;
+      height: 18px;
+      overflow: hidden;
+      background: var(--gray-2);
+      border: 1px solid var(--line);
+      border-radius: 6px;
+    }
+    .bar-segment { min-width: 3px; }
+    .bars {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+      padding: 12px 16px 16px;
+    }
+    .bars > div > span {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--muted);
+      font-weight: 800;
+      font-size: .86rem;
+    }
+    .count-list {
+      display: grid;
+      gap: 6px;
+      padding: 0;
+      margin: 10px 0 0;
+      list-style: none;
+    }
+    .count-list li {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      color: var(--muted);
+      font-size: .86rem;
+    }
+    .count-list strong { color: var(--ink); }
+    .complementary {
+      margin: 0 16px 16px;
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fbf6ec;
+    }
+    .complementary h4, .complementary h5 {
+      margin: 0 0 10px;
+    }
+    .mini-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+    .mini-grid .metric {
+      min-height: 76px;
+      box-shadow: none;
+      background: var(--surface);
+    }
+    .mini-grid .metric strong {
+      font-size: 1.25rem;
+    }
+    .split {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+    .table-wrap {
+      overflow-x: auto;
+      border-top: 1px solid var(--line);
+    }
+    table {
+      width: 100%;
+      min-width: 780px;
+      border-collapse: collapse;
+      background: var(--surface);
+      font-size: .88rem;
+    }
+    th {
+      text-align: left;
+      padding: 10px 12px;
+      background: #1d2926;
+      color: white;
+      white-space: nowrap;
+    }
+    td {
+      padding: 10px 12px;
+      border-top: 1px solid var(--line);
+      vertical-align: top;
+    }
+    td span, td small {
+      display: block;
+      margin-top: 5px;
+      color: var(--muted);
+      overflow-wrap: anywhere;
+    }
+    td small .tag {
+      margin-top: 4px;
+    }
+    code {
+      display: inline-block;
+      max-width: 520px;
+      padding: 2px 5px;
+      background: #edf1ed;
+      border-radius: 5px;
+      color: #111816;
+      overflow-wrap: anywhere;
+      white-space: normal;
+    }
+    .num {
+      text-align: right;
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+    }
+    .comparison-head {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+    .delta-pos { color: var(--red); font-weight: 900; }
+    .delta-neg { color: var(--teal); font-weight: 900; }
+    .source-note {
+      margin-top: 30px;
+      padding: 14px 16px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      color: var(--muted);
+      background: var(--surface);
+      font-size: .9rem;
+    }
+    @media (max-width: 1080px) {
+      .hero, .mode-grid, .run-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 760px) {
+      main { width: min(100% - 18px, 720px); }
+      .topbar { align-items: flex-start; flex-direction: column; }
+      .hero-aside, .metrics, .metrics.compact, .mini-grid, .split, .bars, .comparison-head {
+        grid-template-columns: 1fr;
+      }
+      .section-title {
+        display: block;
+      }
+      .section-title p {
+        margin-top: 8px;
+        text-align: left;
+      }
+      .run-heading {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <strong>VeritasSec</strong>
+    <a href="index.html">Visão operacional</a>
+  </header>
+  <main>
+    <section class="hero">
+      <div class="hero-card">
+        <div class="eyebrow">VeritasSec · Contextual · Analítico</div>
+        <p>Painel consolidado das execuções em <code>VeritasSec-Aanalises</code>, separado por modo de leitura e com comparativo entre contexto coletado, decisão analítica, risco e universo complementar da LLM.</p>
+      </div>
+      <div class="hero-aside">
+        
+      <div class="metric">
+        <strong>6</strong>
+        <span>Execuções</span>
+        
+      </div>
+    
+        
+      <div class="metric">
+        <strong>183</strong>
+        <span>Achados em execucoes</span>
+        
+      </div>
+    
+        
+      <div class="metric">
+        <strong>3</strong>
+        <span>Contextuais</span>
+        
+      </div>
+    
+        
+      <div class="metric">
+        <strong>136</strong>
+        <span>Universo LLM analitico</span>
+        
+      </div>
+    
+      </div>
+    </section>
+
+    <section class="section-title">
+      <h2>Separação por modo</h2>
+      <p>Contextual mostra decisões baseadas em contexto expandido de código. Analítico mostra a leitura classificatória e, quando disponível, o universo complementar passado pela LLM.</p>
+    </section>
+    <div class="mode-grid">
+      
+      <article class="mode-panel">
+        <h2>Contextual</h2>
+        <p>Executa a triagem com contexto de arquivo, trechos relacionados e média de arquivos conectados por achado.</p>
+        <div class="metrics">
+          
+      <div class="metric">
+        <strong>3</strong>
+        <span>Execuções</span>
+        
+      </div>
+    
+          
+      <div class="metric">
+        <strong>108</strong>
+        <span>Achados analisados</span>
+        
+      </div>
+    
+          
+      <div class="metric">
+        <strong>92,6%</strong>
+        <span>Decisão objetiva</span>
+        
+      </div>
+    
+          
+      <div class="metric">
+        <strong>78,5</strong>
+        <span>Risco médio</span>
+        
+      </div>
+    
+        </div>
+        <div class="stacked-bar"><span class="bar-segment class-verdadeiro_positivo" style="width:77.8%" title="Verdadeiro positivo: 84"></span><span class="bar-segment class-falso_positivo" style="width:14.8%" title="Falso positivo: 16"></span><span class="bar-segment class-inconclusivo" style="width:7.4%" title="Inconclusivo: 8"></span></div>
+      </article>
+    
+      
+      <article class="mode-panel">
+        <h2>Analítico</h2>
+        <p>Organiza a decisão final, os riscos e os sinais complementares classificados pela LLM para ampliar a inferência.</p>
+        <div class="metrics">
+          
+      <div class="metric">
+        <strong>3</strong>
+        <span>Execuções</span>
+        
+      </div>
+    
+          
+      <div class="metric">
+        <strong>75</strong>
+        <span>Achados analisados</span>
+        
+      </div>
+    
+          
+      <div class="metric">
+        <strong>97,3%</strong>
+        <span>Decisão objetiva</span>
+        
+      </div>
+    
+          
+      <div class="metric">
+        <strong>84,7</strong>
+        <span>Risco médio</span>
+        
+      </div>
+    
+        </div>
+        <div class="stacked-bar"><span class="bar-segment class-verdadeiro_positivo" style="width:92.0%" title="Verdadeiro positivo: 69"></span><span class="bar-segment class-falso_positivo" style="width:5.3%" title="Falso positivo: 4"></span><span class="bar-segment class-inconclusivo" style="width:2.7%" title="Inconclusivo: 2"></span></div>
+      </article>
+    
+    </div>
+
+    <section class="section-title" id="contextual">
+      <h2>Execuções contextuais</h2>
+      <p>Grupo isolado das pastas marcadas como contextual.</p>
+    </section>
+    <div class="run-grid">
+      
+      <article class="run-card">
+        <div class="run-heading">
+          <div>
+            <p>Juice Shop · 14/05/2026 00:02:56</p>
+            <h3>VeritasSec-Aanalises/Juice_Shop_20260514_000256 - contextual</h3>
+          </div>
+          <span class="tag tag-mode tag-contextual">Contextual</span>
+        </div>
+        <div class="metrics compact">
+          
+      <div class="metric">
+        <strong>36</strong>
+        <span>Achados</span>
+        
+      </div>
+    
+          
+      <div class="metric">
+        <strong>100,0%</strong>
+        <span>Decisões objetivas</span>
+        
+      </div>
+    
+          
+      <div class="metric">
+        <strong>73,6</strong>
+        <span>Risco médio</span>
+        
+      </div>
+    
+          
+      <div class="metric">
+        <strong>26</strong>
+        <span>Revisão humana</span>
+        
+      </div>
+    
+          
+      <div class="metric">
+        <strong>12.282</strong>
+        <span>Contexto médio</span>
+        <small>caracteres</small>
+      </div>
+    
+          
+      <div class="metric">
+        <strong>8,0</strong>
+        <span>Arquivos relacionados</span>
+        <small>média</small>
+      </div>
+    
+        </div>
+        <div class="bars">
+          <div>
+            <span>Classificações</span>
+            <div class="stacked-bar"><span class="bar-segment class-verdadeiro_positivo" style="width:72.2%" title="Verdadeiro positivo: 26"></span><span class="bar-segment class-falso_positivo" style="width:27.8%" title="Falso positivo: 10"></span></div>
+            <ul class="count-list"><li><span>Verdadeiro positivo</span><strong>26</strong></li><li><span>Falso positivo</span><strong>10</strong></li></ul>
+          </div>
+          <div>
+            <span>Severidades</span>
+            <div class="stacked-bar"><span class="bar-segment severity-critica" style="width:16.7%" title="Crítica: 6"></span><span class="bar-segment severity-alta" style="width:50.0%" title="Alta: 18"></span><span class="bar-segment severity-media" style="width:5.6%" title="Média: 2"></span><span class="bar-segment severity-baixa" style="width:27.8%" title="Baixa: 10"></span></div>
+            <ul class="count-list"><li><span>Crítica</span><strong>6</strong></li><li><span>Alta</span><strong>18</strong></li><li><span>Média</span><strong>2</strong></li><li><span>Baixa</span><strong>10</strong></li></ul>
+          </div>
+        </div>
+        
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Regra e arquivo</th>
+                <th>Classificação</th>
+                <th>Severidade</th>
+                <th>Risco</th>
+                <th>Revisão</th>
+              </tr>
+            </thead>
+            <tbody><tr><td><code>detected-generic-secret</code><span>data/static/users.yml</span></td><td><span class="tag tag-class tag-verdadeiro-positivo">Verdadeiro positivo</span></td><td><span class="tag tag-severity tag-critica">Crítica</span></td><td class="num">99</td><td class="num">Sim</td></tr><tr><td><code>express-detect-notevil-usage</code><span>routes/b2bOrder.ts</span></td><td><span class="tag tag-class tag-verdadeiro-positivo">Verdadeiro positivo</span></td><td><span class="tag tag-severity tag-critica">Crítica</span></td><td class="num">98</td><td class="num">Sim</td></tr><tr><td><code>express-sequelize-injection</code><span>routes/login.ts</span></td><td><span class="tag tag-class tag-verdadeiro-positivo">Verdadeiro positivo</span></td><td><span class="tag tag-severity tag-critica">Crítica</span></td><td class="num">98</td><td class="num">Sim</td></tr><tr><td><code>eval-detected</code><span>routes/userProfile.ts</span></td><td><span class="tag tag-class tag-verdadeiro-positivo">Verdadeiro positivo</span></td><td><span class="tag tag-severity tag-critica">Crítica</span></td><td class="num">98</td><td class="num">Sim</td></tr><tr><td><code>code-string-concat</code><span>routes/userProfile.ts</span></td><td><span class="tag tag-class tag-verdadeiro-positivo">Verdadeiro positivo</span></td><td><span class="tag tag-severity tag-critica">Crítica</span></td><td class="num">98</td><td class="num">Sim</td></tr><tr><td><code>hardcoded-hmac-key</code><span>lib/insecurity.ts</span></td><td><span class="tag tag-class tag-verdadeiro-positivo">Verdadeiro positivo</span></td><td><span class="tag tag-severity tag-critica">Crítica</span></td><td class="num">97</td><td class="num">Sim</td></tr><tr><td><code>express-sequelize-injection</code><span>data/static/codefixes/dbSchemaChallenge_1.ts</span></td><td><span class="tag tag-class tag-verdadeiro-positivo">Verdadeiro positivo</span></td><td><span class="tag tag-severity tag-alta">Alta</span></td><td class="num">92</td><td class="num">Sim</td></tr><tr><td><code>express-sequelize-injection</code><span>routes/search.ts</span></td><td><span class="tag tag-class tag-verdadeiro-positivo">Verdadeiro positivo</span></td><td><span class="tag tag-severity tag-alta">Alta</span></td><td class="num">92</td><td class="num">Sim</td></tr></tbody>
+          </table>
+        </div>
+      </article>
+    
+      <article class="run-card">
+        <div class="run-heading">
+          <div>
+            <p>Juice Shop · 13/05/2026 17:08:11</p>
+            <h3>VeritasSec-Aanalises/Juice_Shop_20260513_170811-contextual</h3>
+          </div>
+          <span class="tag tag-mode tag-contextual">Contextual</span>
+        </div>
+        <div class="metrics compact">
+          
+      <div class="metric">
+        <strong>36</strong>
+        <span>Achados</span>
+        
+      </div>
+    
+          
+      <div class="metric">
+        <strong>97,2%</strong>
+        <span>Decisões objetivas</span>
+        
+      </div>
+    
+          
+      <div class="metric">
+        <strong>86,9</strong>
+        <span>Risco médio</span>
+        
+      </div>
+    
+          
+      <div class="metric">
+        <strong>32</strong>
+        <span>Revisão humana</span>
+        
+      </div>
+    
+          
+      <div class="metric">
+        <strong>0</strong>
+        <span>Contexto médio</span>
+        <small>caracteres</small>
+      </div>
+    
+          
+      <div class="metric">
+        <strong>8,0</strong>
+        <span>Arquivos relacionados</span>
+        <small>média</small>
+      </div>
+    
+        </div>
+        <div class="bars">
+          <div>
+            <span>Classificações</span>
+            <div class="stacked-bar"><span class="bar-segment class-verdadeiro_positivo" style="width:88.9%" title="Verdadeiro positivo: 32"></span><span class="bar-segment class-falso_positivo" style="width:8.3%" title="Falso positivo: 3"></span><span class="bar-segment class-inconclusivo" style="width:2.8%" title="Inconclusivo: 1"></span></div>
+            <ul class="count-list"><li><span>Verdadeiro positivo</span><strong>32</strong></li><li><span>Falso positivo</span><strong>3</strong></li><li><span>Inconclusivo</span><strong>1</strong></li></ul>
+          </div>
+          <div>
+            <span>Severidades</span>
+            <div class="stacked-bar"><span class="bar-segment severity-critica" style="width:50.0%" title="Crítica: 18"></span><span class="bar-segment severity-alta" style="width:38.9%" title="Alta: 14"></span><span class="bar-segment severity-baixa" style="width:11.1%" title="Baixa: 4"></span></div>
+            <ul class="count-list"><li><span>Crítica</span><strong>18</strong></li><li><span>Alta</span><strong>14</strong></li><li><span>Baixa</span><strong>4</strong></li></ul>
+          </div>
+        </div>
+        
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Regra e arquivo</th>
+                <th>Classificação</th>
+                <th>Severidade</th>
+                <th>Risco</th>
+                <th>Revisão</th>
+              </tr>
+            </thead>
+            <tbody><tr><td><code>detected-generic-secret</code><span>data/static/users.yml</span></td><td><span class="tag tag-class tag-verdadeiro-positivo">Verdadeiro positivo</span></td><td><span class="tag tag-severity tag-critica">Crítica</span></td><td class="num">100</td><td class="num">Sim</td></tr><tr><td><code>hardcoded-hmac-key</code><span>lib/insecurity.ts</span></td><td><span class="tag tag-class tag-verdadeiro-positivo">Verdadeiro positivo</span></td><td><span class="tag tag-severity tag-critica">Crítica</span></td><td class="num">100</td><td class="num">Sim</td></tr><tr><td><code>express-sequelize-injection</code><span>routes/login.ts</span></td><td><span class="tag tag-class tag-verdadeiro-positivo">Verdadeiro positivo</span></td><td><span class="tag tag-severity tag-critica">Crítica</span></td><td class="num">100</td><td class="num">Sim</td></tr><tr><td><code>express-sequelize-injection</code><span>data/static/codefixes/dbSchemaChallenge_1.ts</span></td><td><span class="tag tag-class tag-verdadeiro-positivo">Verdadeiro positivo</span></td><td><span class="tag tag-severity tag-critica">Crítica</span></td><td class="num">98</td><td class="num">Sim</td></tr><tr><td><code>express-sequelize-injection</code><span>data/static/codefixes/unionSqlInjectionChallenge_3.ts</span></td><td><span class="tag tag-class tag-verdadeiro-positivo">Verdadeiro positivo</span></td><td><span class="tag tag-severity tag-critica">Crítica</span></td><td class="num">98</td><td class="num">Sim</td></tr><tr><td><code>express-sequelize-injection</code><span>routes/search.ts</span></td><td><span class="tag tag-class tag-verdadeiro-positivo">Verdadeiro positivo</span></td><td><span class="tag tag-severity tag-critica">Crítica</span></td><td class="num">98</td><td class="num">Sim</td></tr><tr><td><code>code-string-concat</code><span>routes/userProfile.ts</span></td><td><span class="tag tag-class tag-verdadeiro-positivo">Verdadeiro positivo</span></td><td><span class="tag tag-severity tag-critica">Crítica</span></td><td class="num">98</td><td class="num">Sim</td></tr><tr><td><code>run-shell-injection</code><span>.github/workflows/update-challenges-ebook.yml</span></td><td><span class="tag tag-class tag-verdadeiro-positivo">Verdadeiro positivo</span></td><td><span class="tag tag-severity tag-critica">Crítica</span></td><td class="num">97</td><td class="num">Sim</td></tr></tbody>
+          </table>
+        </div>
+      </article>
+    
+      <article class="run-card">
+        <div class="run-heading">
+          <div>
+            <p>Juice Shop · 13/05/2026 12:41:08</p>
+            <h3>VeritasSec-Aanalises/Juice_Shop_20260513_124108 - contextual</h3>
+          </div>
+          <span class="tag tag-mode tag-contextual">Contextual</span>
+        </div>
+        <div class="metrics compact">
+          
+      <div class="metric">
+        <strong>36</strong>
+        <span>Achados</span>
+        
+      </div>
+    
+          
+      <div class="metric">
+        <strong>80,6%</strong>
+        <span>Decisões objetivas</span>
+        
+      </div>
+    
+          
+      <div class="metric">
+        <strong>75,1</strong>
+        <span>Risco médio</span>
+        
+      </div>
+    
+          
+      <div class="metric">
+        <strong>26</strong>
+        <span>Revisão humana</span>
+        
+      </div>
+    
+          
+      <div class="metric">
+        <strong>0</strong>
+        <span>Contexto médio</span>
+        <small>caracteres</small>
+      </div>
+    
+          
+      <div class="metric">
+        <strong>8,0</strong>
+        <span>Arquivos relacionados</span>
+        <small>média</small>
+      </div>
+    
+        </div>
+        <div class="bars">
+          <div>
+            <span>Classificações</span>
+            <div class="stacked-bar"><span class="bar-segment class-verdadeiro_positivo" style="width:72.2%" title="Verdadeiro positivo: 26"></span><span class="bar-segment class-falso_positivo" style="width:8.3%" title="Falso positivo: 3"></span><span class="bar-segment class-inconclusivo" style="width:19.4%" title="Inconclusivo: 7"></span></div>
+            <ul class="count-list"><li><span>Verdadeiro positivo</span><strong>26</strong></li><li><span>Falso positivo</span><strong>3</strong></li><li><span>Inconclusivo</span><strong>7</strong></li></ul>
+          </div>
+          <div>
+            <span>Severidades</span>
+            <div class="stacked-bar"><span class="bar-segment severity-critica" style="width:33.3%" title="Crítica: 12"></span><span class="bar-segment severity-alta" style="width:38.9%" title="Alta: 14"></span><span class="bar-segment severity-media" style="width:2.8%" title="Média: 1"></span><span class="bar-segment severity-baixa" style="width:25.0%" title="Baixa: 9"></span></div>
+            <ul class="count-list"><li><span>Crítica</span><strong>12</strong></li><li><span>Alta</span><strong>14</strong></li><li><span>Média</span><strong>1</strong></li><li><span>Baixa</span><strong>9</strong></li></ul>
+          </div>
+        </div>
+        
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Regra e arquivo</th>
+                <th>Classificação</th>
+                <th>Severidade</th>
+                <th>Risco</th>
+                <th>Revisão</th>
+              </tr>
+            </thead>
+            <tbody><tr><td><code>hardcoded-hmac-key</code><span>lib/insecurity.ts</span></td><td><span class="tag tag-class tag-verdadeiro-positivo">Verdadeiro positivo</span></td><td><span class="tag tag-severity tag-critica">Crítica</span></td><td class="num">100</td><td class="num">Sim</td></tr><tr><td><code>hardcoded-jwt-secret</code><span>lib/insecurity.ts</span></td><td><span class="tag tag-class tag-verdadeiro-positivo">Verdadeiro positivo</span></td><td><span class="tag tag-severity tag-critica">Crítica</span></td><td class="num">100</td><td class="num">Sim</td></tr><tr><td><code>hardcoded-hmac-key</code><span>lib/insecurity.ts</span></td><td><span class="tag tag-class tag-verdadeiro-positivo">Verdadeiro positivo</span></td><td><span class="tag tag-severity tag-critica">Crítica</span></td><td class="num">100</td><td class="num">Sim</td></tr><tr><td><code>express-sequelize-injection</code><span>data/static/codefixes/unionSqlInjectionChallenge_1.ts</span></td><td><span class="tag tag-class tag-verdadeiro-positivo">Verdadeiro positivo</span></td><td><span class="tag tag-severity tag-critica">Crítica</span></td><td class="num">98</td><td class="num">Sim</td></tr><tr><td><code>express-sequelize-injection</code><span>data/static/codefixes/unionSqlInjectionChallenge_3.ts</span></td><td><span class="tag tag-class tag-verdadeiro-positivo">Verdadeiro positivo</span></td><td><span class="tag tag-severity tag-critica">Crítica</span></td><td class="num">98</td><td class="num">Sim</td></tr><tr><td><code>eval-detected</code><span>routes/captcha.ts</span></td><td><span class="tag tag-class tag-verdadeiro-positivo">Verdadeiro positivo</span></td><td><span class="tag tag-severity tag-critica">Crítica</span></td><td class="num">98</td><td class="num">Sim</td></tr><tr><td><code>express-libxml-vm-noent</code><span>routes/fileUpload.ts</span></td><td><span class="tag tag-class tag-verdadeiro-positivo">Verdadeiro positivo</span></td><td><span class="tag tag-severity tag-critica">Crítica</span></td><td class="num">98</td><td class="num">Sim</td></tr><tr><td><code>code-string-concat</code><span>routes/userProfile.ts</span></td><td><span class="tag tag-class tag-verdadeiro-positivo">Verdadeiro positivo</span></td><td><span class="tag tag-severity tag-critica">Crítica</span></td><td class="num">98</td><td class="num">Sim</td></tr></tbody>
+          </table>
+        </div>
+      </article>
+    
+    </div>
+
+    <section class="section-title" id="analitico">
+      <h2>Execuções analíticas</h2>
+      <p>Grupo isolado das pastas marcadas como analitico.</p>
+    </section>
+    <div class="run-grid">
+      
+      <article class="run-card">
+        <div class="run-heading">
+          <div>
+            <p>Plataforma Codefolio · 12/05/2026 23:18:28</p>
+            <h3>VeritasSec-Aanalises/Plataformacodefolio_Main_20260512_231828- analitico</h3>
+          </div>
+          <span class="tag tag-mode tag-analitico">Analítico</span>
+        </div>
+        <div class="metrics compact">
+          
+      <div class="metric">
+        <strong>3</strong>
+        <span>Achados</span>
+        
+      </div>
+    
+          
+      <div class="metric">
+        <strong>66,7%</strong>
+        <span>Decisões objetivas</span>
+        
+      </div>
+    
+          
+      <div class="metric">
+        <strong>76,0</strong>
+        <span>Risco médio</span>
+        
+      </div>
+    
+          
+      <div class="metric">
+        <strong>3</strong>
+        <span>Revisão humana</span>
+        
+      </div>
+    
+          
+      <div class="metric">
+        <strong>13.377</strong>
+        <span>Contexto médio</span>
+        <small>caracteres</small>
+      </div>
+    
+          
+      <div class="metric">
+        <strong>8,0</strong>
+        <span>Arquivos relacionados</span>
+        <small>média</small>
+      </div>
+    
+        </div>
+        <div class="bars">
+          <div>
+            <span>Classificações</span>
+            <div class="stacked-bar"><span class="bar-segment class-verdadeiro_positivo" style="width:66.7%" title="Verdadeiro positivo: 2"></span><span class="bar-segment class-inconclusivo" style="width:33.3%" title="Inconclusivo: 1"></span></div>
+            <ul class="count-list"><li><span>Verdadeiro positivo</span><strong>2</strong></li><li><span>Inconclusivo</span><strong>1</strong></li></ul>
+          </div>
+          <div>
+            <span>Severidades</span>
+            <div class="stacked-bar"><span class="bar-segment severity-alta" style="width:100.0%" title="Alta: 3"></span></div>
+            <ul class="count-list"><li><span>Alta</span><strong>3</strong></li></ul>
+          </div>
+        </div>
+        
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Regra e arquivo</th>
+                <th>Classificação</th>
+                <th>Severidade</th>
+                <th>Risco</th>
+                <th>Revisão</th>
+              </tr>
+            </thead>
+            <tbody><tr><td><code>javascript/DOMXSS</code><span>src/app/components/post/components/editPost/EditPost.jsx</span></td><td><span class="tag tag-class tag-verdadeiro-positivo">Verdadeiro positivo</span></td><td><span class="tag tag-severity tag-alta">Alta</span></td><td class="num">86</td><td class="num">Sim</td></tr><tr><td><code>javascript/PrototypePollution</code><span>src/app/components/courses/quizGigi/QuizGigi.jsx</span></td><td><span class="tag tag-class tag-verdadeiro-positivo">Verdadeiro positivo</span></td><td><span class="tag tag-severity tag-alta">Alta</span></td><td class="num">86</td><td class="num">Sim</td></tr><tr><td><code>javascript/DOMXSS</code><span>src/app/components/post/components/createPost/CreatePost.jsx</span></td><td><span class="tag tag-class tag-inconclusivo">Inconclusivo</span></td><td><span class="tag tag-severity tag-alta">Alta</span></td><td class="num">56</td><td class="num">Sim</td></tr></tbody>
+          </table>
+        </div>
+      </article>
+    
+      <article class="run-card">
+        <div class="run-heading">
+          <div>
+            <p>Juice Shop · 13/05/2026 22:39:25</p>
+            <h3>VeritasSec-Aanalises/Juice_Shop_20260513_223925- analitíco</h3>
+          </div>
+          <span class="tag tag-mode tag-analitico">Analítico</span>
+        </div>
+        <div class="metrics compact">
+          
+      <div class="metric">
+        <strong>36</strong>
+        <span>Achados</span>
+        
+      </div>
+    
+          
+      <div class="metric">
+        <strong>100,0%</strong>
+        <span>Decisões objetivas</span>
+        
+      </div>
+    
+          
+      <div class="metric">
+        <strong>88,5</strong>
+        <span>Risco médio</span>
+        
+      </div>
+    
+          
+      <div class="metric">
+        <strong>32</strong>
+        <span>Revisão humana</span>
+        
+      </div>
+    
+          
+      <div class="metric">
+        <strong>0</strong>
+        <span>Contexto médio</span>
+        <small>caracteres</small>
+      </div>
+    
+          
+      <div class="metric">
+        <strong>8,0</strong>
+        <span>Arquivos relacionados</span>
+        <small>média</small>
+      </div>
+    
+        </div>
+        <div class="bars">
+          <div>
+            <span>Classificações</span>
+            <div class="stacked-bar"><span class="bar-segment class-verdadeiro_positivo" style="width:91.7%" title="Verdadeiro positivo: 33"></span><span class="bar-segment class-falso_positivo" style="width:8.3%" title="Falso positivo: 3"></span></div>
+            <ul class="count-list"><li><span>Verdadeiro positivo</span><strong>33</strong></li><li><span>Falso positivo</span><strong>3</strong></li></ul>
+          </div>
+          <div>
+            <span>Severidades</span>
+            <div class="stacked-bar"><span class="bar-segment severity-critica" style="width:52.8%" title="Crítica: 19"></span><span class="bar-segment severity-alta" style="width:36.1%" title="Alta: 13"></span><span class="bar-segment severity-baixa" style="width:11.1%" title="Baixa: 4"></span></div>
+            <ul class="count-list"><li><span>Crítica</span><strong>19</strong></li><li><span>Alta</span><strong>13</strong></li><li><span>Baixa</span><strong>4</strong></li></ul>
+          </div>
+        </div>
+        
+          <div class="complementary">
+            <h4>Universo LLM complementar</h4>
+            <div class="mini-grid">
+              
+      <div class="metric">
+        <strong>36</strong>
+        <span>SAST base</span>
+        
+      </div>
+    
+              
+      <div class="metric">
+        <strong>100</strong>
+        <span>Complementares</span>
+        
+      </div>
+    
+              
+      <div class="metric">
+        <strong>136</strong>
+        <span>Universo analisado</span>
+        
+      </div>
+    
+              
+      <div class="metric">
+        <strong>277,8%</strong>
+        <span>Expansão contextual</span>
+        
+      </div>
+    
+            </div>
+            <div class="split">
+              <div>
+                <h5>Classificação complementar</h5>
+                <ul class="count-list"><li><span>Verdadeiro positivo</span><strong>22</strong></li><li><span>Falso positivo</span><strong>56</strong></li><li><span>Inconclusivo</span><strong>22</strong></li></ul>
+              </div>
+              <div>
+                <h5>Tipos semânticos</h5>
+                <ul class="count-list"><li><span>Secret Keyword</span><strong>75</strong></li><li><span>Comentario Inseguro</span><strong>15</strong></li><li><span>Md5</span><strong>6</strong></li><li><span>Exec</span><strong>2</strong></li><li><span>Todo Security</span><strong>1</strong></li><li><span>Console Log</span><strong>1</strong></li></ul>
+              </div>
+            </div>
+          </div>
+        
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Regra e arquivo</th>
+                <th>Classificação</th>
+                <th>Severidade</th>
+                <th>Risco</th>
+                <th>Revisão</th>
+              </tr>
+            </thead>
+            <tbody><tr><td><code>express-sequelize-injection</code><span>data/static/codefixes/dbSchemaChallenge_3.ts</span></td><td><span class="tag tag-class tag-verdadeiro-positivo">Verdadeiro positivo</span></td><td><span class="tag tag-severity tag-critica">Crítica</span></td><td class="num">100</td><td class="num">Sim</td></tr><tr><td><code>express-sequelize-injection</code><span>data/static/codefixes/unionSqlInjectionChallenge_1.ts</span></td><td><span class="tag tag-class tag-verdadeiro-positivo">Verdadeiro positivo</span></td><td><span class="tag tag-severity tag-critica">Crítica</span></td><td class="num">100</td><td class="num">Sim</td></tr><tr><td><code>detected-generic-secret</code><span>data/static/users.yml</span></td><td><span class="tag tag-class tag-verdadeiro-positivo">Verdadeiro positivo</span></td><td><span class="tag tag-severity tag-critica">Crítica</span></td><td class="num">100</td><td class="num">Sim</td></tr><tr><td><code>hardcoded-hmac-key</code><span>lib/insecurity.ts</span></td><td><span class="tag tag-class tag-verdadeiro-positivo">Verdadeiro positivo</span></td><td><span class="tag tag-severity tag-critica">Crítica</span></td><td class="num">100</td><td class="num">Sim</td></tr><tr><td><code>hardcoded-jwt-secret</code><span>lib/insecurity.ts</span></td><td><span class="tag tag-class tag-verdadeiro-positivo">Verdadeiro positivo</span></td><td><span class="tag tag-severity tag-critica">Crítica</span></td><td class="num">100</td><td class="num">Sim</td></tr><tr><td><code>eval-detected</code><span>routes/captcha.ts</span></td><td><span class="tag tag-class tag-verdadeiro-positivo">Verdadeiro positivo</span></td><td><span class="tag tag-severity tag-critica">Crítica</span></td><td class="num">100</td><td class="num">Sim</td></tr><tr><td><code>express-sequelize-injection</code><span>routes/login.ts</span></td><td><span class="tag tag-class tag-verdadeiro-positivo">Verdadeiro positivo</span></td><td><span class="tag tag-severity tag-critica">Crítica</span></td><td class="num">100</td><td class="num">Sim</td></tr><tr><td><code>code-string-concat</code><span>routes/userProfile.ts</span></td><td><span class="tag tag-class tag-verdadeiro-positivo">Verdadeiro positivo</span></td><td><span class="tag tag-severity tag-critica">Crítica</span></td><td class="num">100</td><td class="num">Sim</td></tr></tbody>
+          </table>
+        </div>
+      </article>
+    
+      <article class="run-card">
+        <div class="run-heading">
+          <div>
+            <p>Juice Shop · 13/05/2026 21:23:17</p>
+            <h3>VeritasSec-Aanalises/Juice_Shop_20260513_212317-analitico</h3>
+          </div>
+          <span class="tag tag-mode tag-analitico">Analítico</span>
+        </div>
+        <div class="metrics compact">
+          
+      <div class="metric">
+        <strong>36</strong>
+        <span>Achados</span>
+        
+      </div>
+    
+          
+      <div class="metric">
+        <strong>97,2%</strong>
+        <span>Decisões objetivas</span>
+        
+      </div>
+    
+          
+      <div class="metric">
+        <strong>89,6</strong>
+        <span>Risco médio</span>
+        
+      </div>
+    
+          
+      <div class="metric">
+        <strong>33</strong>
+        <span>Revisão humana</span>
+        
+      </div>
+    
+          
+      <div class="metric">
+        <strong>0</strong>
+        <span>Contexto médio</span>
+        <small>caracteres</small>
+      </div>
+    
+          
+      <div class="metric">
+        <strong>8,0</strong>
+        <span>Arquivos relacionados</span>
+        <small>média</small>
+      </div>
+    
+        </div>
+        <div class="bars">
+          <div>
+            <span>Classificações</span>
+            <div class="stacked-bar"><span class="bar-segment class-verdadeiro_positivo" style="width:94.4%" title="Verdadeiro positivo: 34"></span><span class="bar-segment class-falso_positivo" style="width:2.8%" title="Falso positivo: 1"></span><span class="bar-segment class-inconclusivo" style="width:2.8%" title="Inconclusivo: 1"></span></div>
+            <ul class="count-list"><li><span>Verdadeiro positivo</span><strong>34</strong></li><li><span>Falso positivo</span><strong>1</strong></li><li><span>Inconclusivo</span><strong>1</strong></li></ul>
+          </div>
+          <div>
+            <span>Severidades</span>
+            <div class="stacked-bar"><span class="bar-segment severity-critica" style="width:52.8%" title="Crítica: 19"></span><span class="bar-segment severity-alta" style="width:38.9%" title="Alta: 14"></span><span class="bar-segment severity-baixa" style="width:8.3%" title="Baixa: 3"></span></div>
+            <ul class="count-list"><li><span>Crítica</span><strong>19</strong></li><li><span>Alta</span><strong>14</strong></li><li><span>Baixa</span><strong>3</strong></li></ul>
+          </div>
+        </div>
+        
+          <div class="complementary">
+            <h4>Universo LLM complementar</h4>
+            <div class="mini-grid">
+              
+      <div class="metric">
+        <strong>36</strong>
+        <span>SAST base</span>
+        
+      </div>
+    
+              
+      <div class="metric">
+        <strong>50</strong>
+        <span>Complementares</span>
+        
+      </div>
+    
+              
+      <div class="metric">
+        <strong>86</strong>
+        <span>Universo analisado</span>
+        
+      </div>
+    
+              
+      <div class="metric">
+        <strong>138,9%</strong>
+        <span>Expansão contextual</span>
+        
+      </div>
+    
+            </div>
+            <div class="split">
+              <div>
+                <h5>Classificação complementar</h5>
+                <ul class="count-list"><li><span>Verdadeiro positivo</span><strong>7</strong></li><li><span>Falso positivo</span><strong>31</strong></li><li><span>Inconclusivo</span><strong>12</strong></li></ul>
+              </div>
+              <div>
+                <h5>Tipos semânticos</h5>
+                <ul class="count-list"><li><span>Secret Keyword</span><strong>39</strong></li><li><span>Comentario Inseguro</span><strong>9</strong></li><li><span>Todo Security</span><strong>1</strong></li><li><span>Console Log</span><strong>1</strong></li></ul>
+              </div>
+            </div>
+          </div>
+        
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Regra e arquivo</th>
+                <th>Classificação</th>
+                <th>Severidade</th>
+                <th>Risco</th>
+                <th>Revisão</th>
+              </tr>
+            </thead>
+            <tbody><tr><td><code>express-sequelize-injection</code><span>data/static/codefixes/unionSqlInjectionChallenge_1.ts</span></td><td><span class="tag tag-class tag-verdadeiro-positivo">Verdadeiro positivo</span></td><td><span class="tag tag-severity tag-critica">Crítica</span></td><td class="num">100</td><td class="num">Sim</td></tr><tr><td><code>detected-generic-secret</code><span>data/static/users.yml</span></td><td><span class="tag tag-class tag-verdadeiro-positivo">Verdadeiro positivo</span></td><td><span class="tag tag-severity tag-critica">Crítica</span></td><td class="num">100</td><td class="num">Sim</td></tr><tr><td><code>hardcoded-hmac-key</code><span>lib/insecurity.ts</span></td><td><span class="tag tag-class tag-verdadeiro-positivo">Verdadeiro positivo</span></td><td><span class="tag tag-severity tag-critica">Crítica</span></td><td class="num">100</td><td class="num">Sim</td></tr><tr><td><code>run-shell-injection</code><span>.github/workflows/update-challenges-ebook.yml</span></td><td><span class="tag tag-class tag-verdadeiro-positivo">Verdadeiro positivo</span></td><td><span class="tag tag-severity tag-critica">Crítica</span></td><td class="num">98</td><td class="num">Sim</td></tr><tr><td><code>express-sequelize-injection</code><span>data/static/codefixes/dbSchemaChallenge_1.ts</span></td><td><span class="tag tag-class tag-verdadeiro-positivo">Verdadeiro positivo</span></td><td><span class="tag tag-severity tag-critica">Crítica</span></td><td class="num">98</td><td class="num">Sim</td></tr><tr><td><code>express-sequelize-injection</code><span>data/static/codefixes/unionSqlInjectionChallenge_3.ts</span></td><td><span class="tag tag-class tag-verdadeiro-positivo">Verdadeiro positivo</span></td><td><span class="tag tag-severity tag-critica">Crítica</span></td><td class="num">98</td><td class="num">Sim</td></tr><tr><td><code>hardcoded-jwt-secret</code><span>lib/insecurity.ts</span></td><td><span class="tag tag-class tag-verdadeiro-positivo">Verdadeiro positivo</span></td><td><span class="tag tag-severity tag-critica">Crítica</span></td><td class="num">98</td><td class="num">Sim</td></tr><tr><td><code>hardcoded-hmac-key</code><span>lib/insecurity.ts</span></td><td><span class="tag tag-class tag-verdadeiro-positivo">Verdadeiro positivo</span></td><td><span class="tag tag-severity tag-critica">Crítica</span></td><td class="num">98</td><td class="num">Sim</td></tr></tbody>
+          </table>
+        </div>
+      </article>
+    
+    </div>
+
+    <section class="section-title" id="comparativo">
+      <h2>Comparativo Juice Shop</h2>
+      <p>Última execução contextual contra última execução analítica, pareando achados pelo identificador.</p>
+    </section>
+    
+      <div class="comparison-head">
+        
+      <div class="metric">
+        <strong>36</strong>
+        <span>Achados pareados</span>
+        
+      </div>
+    
+        
+      <div class="metric">
+        <strong>18</strong>
+        <span>Mudanças relevantes</span>
+        
+      </div>
+    
+        
+      <div class="metric">
+        <strong>14/05/2026 00:02:56</strong>
+        <span>Contextual mais recente</span>
+        
+      </div>
+    
+        
+      <div class="metric">
+        <strong>13/05/2026 22:39:25</strong>
+        <span>Analítico mais recente</span>
+        
+      </div>
+    
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Achado</th>
+              <th>Contextual</th>
+              <th>Analítico</th>
+              <th>Risco ctx</th>
+              <th>Risco anl</th>
+              <th>Delta</th>
+            </tr>
+          </thead>
+          <tbody><tr><td><code>eval-detected</code><span>routes/captcha.ts</span></td><td><span class="tag tag-class tag-falso-positivo">Falso positivo</span><small><span class="tag tag-severity tag-baixa">Baixa</span></small></td><td><span class="tag tag-class tag-verdadeiro-positivo">Verdadeiro positivo</span><small><span class="tag tag-severity tag-critica">Crítica</span></small></td><td class="num">28</td><td class="num">100</td><td class="num delta-pos">+72</td></tr><tr><td><code>run-shell-injection</code><span>.github/workflows/update-challenges-ebook.yml</span></td><td><span class="tag tag-class tag-falso-positivo">Falso positivo</span><small><span class="tag tag-severity tag-baixa">Baixa</span></small></td><td><span class="tag tag-class tag-verdadeiro-positivo">Verdadeiro positivo</span><small><span class="tag tag-severity tag-critica">Crítica</span></small></td><td class="num">28</td><td class="num">98</td><td class="num delta-pos">+70</td></tr><tr><td><code>express-sequelize-injection</code><span>data/static/codefixes/unionSqlInjectionChallenge_3.ts</span></td><td><span class="tag tag-class tag-falso-positivo">Falso positivo</span><small><span class="tag tag-severity tag-baixa">Baixa</span></small></td><td><span class="tag tag-class tag-verdadeiro-positivo">Verdadeiro positivo</span><small><span class="tag tag-severity tag-critica">Crítica</span></small></td><td class="num">28</td><td class="num">97</td><td class="num delta-pos">+69</td></tr><tr><td><code>detected-jwt-token</code><span>frontend/src/app/last-login-ip/last-login-ip.component.spec.ts</span></td><td><span class="tag tag-class tag-falso-positivo">Falso positivo</span><small><span class="tag tag-severity tag-baixa">Baixa</span></small></td><td><span class="tag tag-class tag-verdadeiro-positivo">Verdadeiro positivo</span><small><span class="tag tag-severity tag-critica">Crítica</span></small></td><td class="num">28</td><td class="num">97</td><td class="num delta-pos">+69</td></tr><tr><td><code>raw-html-format</code><span>routes/chatbot.ts</span></td><td><span class="tag tag-class tag-falso-positivo">Falso positivo</span><small><span class="tag tag-severity tag-baixa">Baixa</span></small></td><td><span class="tag tag-class tag-verdadeiro-positivo">Verdadeiro positivo</span><small><span class="tag tag-severity tag-alta">Alta</span></small></td><td class="num">29</td><td class="num">90</td><td class="num delta-pos">+61</td></tr><tr><td><code>detected-jwt-token</code><span>frontend/src/app/last-login-ip/last-login-ip.component.spec.ts</span></td><td><span class="tag tag-class tag-falso-positivo">Falso positivo</span><small><span class="tag tag-severity tag-baixa">Baixa</span></small></td><td><span class="tag tag-class tag-verdadeiro-positivo">Verdadeiro positivo</span><small><span class="tag tag-severity tag-alta">Alta</span></small></td><td class="num">29</td><td class="num">90</td><td class="num delta-pos">+61</td></tr><tr><td><code>express-open-redirect</code><span>routes/redirect.ts</span></td><td><span class="tag tag-class tag-falso-positivo">Falso positivo</span><small><span class="tag tag-severity tag-baixa">Baixa</span></small></td><td><span class="tag tag-class tag-verdadeiro-positivo">Verdadeiro positivo</span><small><span class="tag tag-severity tag-baixa">Baixa</span></small></td><td class="num">29</td><td class="num">72</td><td class="num delta-pos">+43</td></tr><tr><td><code>express-sequelize-injection</code><span>data/static/codefixes/dbSchemaChallenge_3.ts</span></td><td><span class="tag tag-class tag-verdadeiro-positivo">Verdadeiro positivo</span><small><span class="tag tag-severity tag-alta">Alta</span></small></td><td><span class="tag tag-class tag-verdadeiro-positivo">Verdadeiro positivo</span><small><span class="tag tag-severity tag-critica">Crítica</span></small></td><td class="num">89</td><td class="num">100</td><td class="num delta-pos">+11</td></tr><tr><td><code>hardcoded-jwt-secret</code><span>lib/insecurity.ts</span></td><td><span class="tag tag-class tag-verdadeiro-positivo">Verdadeiro positivo</span><small><span class="tag tag-severity tag-alta">Alta</span></small></td><td><span class="tag tag-class tag-verdadeiro-positivo">Verdadeiro positivo</span><small><span class="tag tag-severity tag-critica">Crítica</span></small></td><td class="num">89</td><td class="num">100</td><td class="num delta-pos">+11</td></tr><tr><td><code>express-sequelize-injection</code><span>data/static/codefixes/unionSqlInjectionChallenge_1.ts</span></td><td><span class="tag tag-class tag-verdadeiro-positivo">Verdadeiro positivo</span><small><span class="tag tag-severity tag-alta">Alta</span></small></td><td><span class="tag tag-class tag-verdadeiro-positivo">Verdadeiro positivo</span><small><span class="tag tag-severity tag-critica">Crítica</span></small></td><td class="num">89</td><td class="num">100</td><td class="num delta-pos">+11</td></tr><tr><td><code>unknown-value-with-script-tag</code><span>routes/videoHandler.ts</span></td><td><span class="tag tag-class tag-verdadeiro-positivo">Verdadeiro positivo</span><small><span class="tag tag-severity tag-media">Média</span></small></td><td><span class="tag tag-class tag-verdadeiro-positivo">Verdadeiro positivo</span><small><span class="tag tag-severity tag-alta">Alta</span></small></td><td class="num">80</td><td class="num">89</td><td class="num delta-pos">+9</td></tr><tr><td><code>detect-replaceall-sanitization</code><span>data/static/codefixes/restfulXssChallenge_2.ts</span></td><td><span class="tag tag-class tag-verdadeiro-positivo">Verdadeiro positivo</span><small><span class="tag tag-severity tag-media">Média</span></small></td><td><span class="tag tag-class tag-verdadeiro-positivo">Verdadeiro positivo</span><small><span class="tag tag-severity tag-alta">Alta</span></small></td><td class="num">82</td><td class="num">89</td><td class="num delta-pos">+7</td></tr><tr><td><code>express-res-sendfile</code><span>routes/logfileServer.ts</span></td><td><span class="tag tag-class tag-verdadeiro-positivo">Verdadeiro positivo</span><small><span class="tag tag-severity tag-alta">Alta</span></small></td><td><span class="tag tag-class tag-verdadeiro-positivo">Verdadeiro positivo</span><small><span class="tag tag-severity tag-critica">Crítica</span></small></td><td class="num">89</td><td class="num">96</td><td class="num delta-pos">+7</td></tr><tr><td><code>express-sequelize-injection</code><span>data/static/codefixes/dbSchemaChallenge_1.ts</span></td><td><span class="tag tag-class tag-verdadeiro-positivo">Verdadeiro positivo</span><small><span class="tag tag-severity tag-alta">Alta</span></small></td><td><span class="tag tag-class tag-verdadeiro-positivo">Verdadeiro positivo</span><small><span class="tag tag-severity tag-critica">Crítica</span></small></td><td class="num">92</td><td class="num">98</td><td class="num delta-pos">+6</td></tr><tr><td><code>hardcoded-hmac-key</code><span>lib/insecurity.ts</span></td><td><span class="tag tag-class tag-verdadeiro-positivo">Verdadeiro positivo</span><small><span class="tag tag-severity tag-alta">Alta</span></small></td><td><span class="tag tag-class tag-verdadeiro-positivo">Verdadeiro positivo</span><small><span class="tag tag-severity tag-critica">Crítica</span></small></td><td class="num">91</td><td class="num">97</td><td class="num delta-pos">+6</td></tr><tr><td><code>express-sequelize-injection</code><span>routes/search.ts</span></td><td><span class="tag tag-class tag-verdadeiro-positivo">Verdadeiro positivo</span><small><span class="tag tag-severity tag-alta">Alta</span></small></td><td><span class="tag tag-class tag-verdadeiro-positivo">Verdadeiro positivo</span><small><span class="tag tag-severity tag-critica">Crítica</span></small></td><td class="num">92</td><td class="num">98</td><td class="num delta-pos">+6</td></tr><tr><td><code>missing-integrity</code><span>frontend/src/index.html</span></td><td><span class="tag tag-class tag-verdadeiro-positivo">Verdadeiro positivo</span><small><span class="tag tag-severity tag-alta">Alta</span></small></td><td><span class="tag tag-class tag-verdadeiro-positivo">Verdadeiro positivo</span><small><span class="tag tag-severity tag-critica">Crítica</span></small></td><td class="num">91</td><td class="num">96</td><td class="num delta-pos">+5</td></tr><tr><td><code>detect-non-literal-regexp</code><span>lib/codingChallenges.ts</span></td><td><span class="tag tag-class tag-verdadeiro-positivo">Verdadeiro positivo</span><small><span class="tag tag-severity tag-alta">Alta</span></small></td><td><span class="tag tag-class tag-verdadeiro-positivo">Verdadeiro positivo</span><small><span class="tag tag-severity tag-critica">Crítica</span></small></td><td class="num">90</td><td class="num">94</td><td class="num delta-pos">+4</td></tr></tbody>
+        </table>
+      </div>
+    
+
+    <div class="source-note">
+      Dados resumidos em <code>dados_veritassec/analises-resumo.json</code>. Página gerada em 2026-05-14 09:48:32.
+    </div>
+  </main>
+</body>
+</html>
